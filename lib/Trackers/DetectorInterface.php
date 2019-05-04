@@ -1,17 +1,17 @@
 <?php
 
-namespace Kuaidi\Trackers;
+namespace XiaoYun\Trackers;
 
-use Kuaidi\Waybill;
+use XiaoYun\Kuaidi;
 
 interface DetectorInterface
 {
     /**
      * 识别快递公司
      *
-     * @param Waybill $waybill
+     * @param Kuaidi $kuaidi
      *
      * @return array
      */
-    public function detect(Waybill $waybill);
+    public function detect(Kuaidi $kuaidi);
 }

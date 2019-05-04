@@ -1,5 +1,5 @@
 {
-    "name": "wi1dcard/kuaidi",
+    "name": "xiaoyun/kuaidi",
     "description": "A wrapper library of multiple free express tracking APIs in China.",
     "type": "library",
     "license": "MIT",
@@ -12,13 +12,13 @@
     },
     "authors": [
         {
-            "name": "wi1dcard",
-            "email": "wi1dcard.cn@gmail.com"
+            "name": "shuxiaoxian",
+            "email": "winnie_xian@163.com"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Kuaidi\\" : "lib/"
+            "XiaoYun\\" : "lib/"
         }
     }
 }

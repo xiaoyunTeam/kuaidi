@@ -1,14 +1,14 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 error_reporting(E_ALL);
 
 function track($number, $express = '')
 {
-    $waybill = new \Kuaidi\Waybill($number, $express);
-    (new \Kuaidi\Trackers\Kuaidi100)->track($waybill);
-    return $waybill->getTraces()->sort();
+    $kuaidi = new \XiaoYun\Kuaidi($number, $express);
+    (new \XiaoYun\Trackers\Kuaidi100)->track($kuaidi);
+    return $kuaidi->getTraces()->sort();
 }
 
 if (php_sapi_name() == 'cli') {

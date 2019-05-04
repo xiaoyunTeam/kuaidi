@@ -1,10 +1,10 @@
 <?php
 
-namespace Kuaidi\Trackers;
+namespace XiaoYun\Trackers;
 
 use Curl\Curl;
-use Kuaidi\Exceptions\TrackingException;
-use Kuaidi\Waybill;
+use XiaoYun\Exceptions\TrackingException;
+use XiaoYun\Kuaidi;
 
 trait TrackerTrait
 {
@@ -43,13 +43,13 @@ trait TrackerTrait
     /**
      * 获取快递公司代码
      *
-     * @param Waybill $waybill
+     * @param Kuaidi $kuaidi
      *
      * @return string
      */
-    public function getExpressCode(Waybill $waybill)
+    public function getExpressCode(Kuaidi $kuaidi)
     {
-        $express = $waybill->getExpress();
+        $express = $kuaidi->getExpress();
         if ($express) {
             if (static::isSupported($express)) {
                 $list = static::getSupportedExpresses();
@@ -60,7 +60,7 @@ trait TrackerTrait
                 return $express;
             }
         } elseif ($this instanceof DetectorInterface) {
-            $list = $this->detect($waybill);
+            $list = $this->detect($kuaidi);
             if (count($list) > 0) {
                 return reset($list);
             }

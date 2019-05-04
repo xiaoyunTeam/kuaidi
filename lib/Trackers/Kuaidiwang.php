@@ -1,11 +1,11 @@
 <?php
 
-namespace Kuaidi\Trackers;
+namespace XiaoYun\Trackers;
 
 use Curl\Curl;
-use Kuaidi\Exceptions\TrackingException;
-use Kuaidi\Traces;
-use Kuaidi\Waybill;
+use XiaoYun\Exceptions\TrackingException;
+use XiaoYun\Traces;
+use XiaoYun\Kuaidi;
 
 class Kuaidiwang implements TrackerInterface
 {
@@ -147,12 +147,12 @@ class Kuaidiwang implements TrackerInterface
         ];
     }
 
-    public function track(Waybill $waybill)
+    public function track(Kuaidi $kuaidi)
     {
         $apiUrl = 'http://www.kuaidi.com/index-ajaxselectcourierinfo-'
-            . urlencode($waybill->id)
+            . urlencode($kuaidi->id)
             . '-'
-            . urlencode($this->getExpressCode($waybill))
+            . urlencode($this->getExpressCode($kuaidi))
             . '.html';
         $curl = (new Curl())->get($apiUrl);
         $response = static::getJsonResponse($curl);
@@ -161,17 +161,17 @@ class Kuaidiwang implements TrackerInterface
             throw new TrackingException($response->reason, $response);
         }
         $statusMap = [
-            0 => Waybill::STATUS_UNKNOWN,
-            3 => Waybill::STATUS_TRANSPORTING,
-            4 => Waybill::STATUS_PICKEDUP,
-            5 => Waybill::STATUS_REJECTED,
-            6 => Waybill::STATUS_DELIVERED,
-            7 => Waybill::STATUS_RETURNED,
-            8 => Waybill::STATUS_DELIVERING,
-            9 => Waybill::STATUS_RETURNING,
+            0 => Kuaidi::STATUS_UNKNOWN,
+            3 => Kuaidi::STATUS_TRANSPORTING,
+            4 => Kuaidi::STATUS_PICKEDUP,
+            5 => Kuaidi::STATUS_REJECTED,
+            6 => Kuaidi::STATUS_DELIVERED,
+            7 => Kuaidi::STATUS_RETURNED,
+            8 => Kuaidi::STATUS_DELIVERING,
+            9 => Kuaidi::STATUS_RETURNING,
         ];
-        $waybill->setStatus($response->status, $statusMap);
-        $waybill->setTraces(
+        $kuaidi->setStatus($response->status, $statusMap);
+        $kuaidi->setTraces(
             Traces::parse($response->Traces, 'time', 'context', '')
         );
     }

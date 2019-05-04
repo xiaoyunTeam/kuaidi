@@ -1,21 +1,21 @@
 <?php
 
-namespace Kuaidi\Trackers;
+namespace XiaoYun\Trackers;
 
-use Kuaidi\Waybill;
+use XiaoYun\Kuaidi;
 
 interface TrackerInterface
 {
     /**
      * 追踪运单（即：查快递）
      *
-     * @param Waybill $waybill
-     *
-     * @throws \Kuaidi\Exceptions\TrackingException
+     * @param Kuaidi $kuaidi
      *
      * @return void
+     *@throws \XiaoYun\Exceptions\TrackingException
+     *
      */
-    public function track(Waybill $waybill);
+    public function track(Kuaidi $kuaidi);
 
     /**
      * 获取完整的快递公司支持列表

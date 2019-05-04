@@ -1,6 +1,6 @@
 <?php
 
-namespace Kuaidi;
+namespace XiaoYun;
 
 class Traces implements \JsonSerializable, \IteratorAggregate, \Countable, \ArrayAccess
 {

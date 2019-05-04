@@ -1,11 +1,11 @@
 <?php
 
-namespace Kuaidi\Trackers;
+namespace XiaoYun\Trackers;
 
 use Curl\Curl;
-use Kuaidi\Exceptions\TrackingException;
-use Kuaidi\Traces;
-use Kuaidi\Waybill;
+use XiaoYun\Exceptions\TrackingException;
+use XiaoYun\Traces;
+use XiaoYun\Kuaidi;
 
 class Kuaidiniao implements TrackerInterface
 {
@@ -136,12 +136,12 @@ class Kuaidiniao implements TrackerInterface
         ];
     }
 
-    public function track(Waybill $waybill)
+    public function track(Kuaidi $kuaidi)
     {
         $requestData = json_encode([
-            'LogisticCode' => $waybill->id,
-            'ShipperCode'  => $this->getExpressCode($waybill),
-            // 'OrderCode' => $waybill->orderId,
+            'LogisticCode' => $kuaidi->id,
+            'ShipperCode'  => $this->getExpressCode($kuaidi),
+            // 'OrderCode' => $kuaidi->orderId,
         ]);
         if ($requestData === false) {
             throw new \RuntimeException('Function json_encode returns false');
@@ -163,12 +163,12 @@ class Kuaidiniao implements TrackerInterface
             throw new TrackingException($response->Reason, $response);
         }
         $statusMap = [
-            2 => Waybill::STATUS_TRANSPORTING,
-            3 => Waybill::STATUS_DELIVERED,
-            4 => Waybill::STATUS_REJECTED,
+            2 => Kuaidi::STATUS_TRANSPORTING,
+            3 => Kuaidi::STATUS_DELIVERED,
+            4 => Kuaidi::STATUS_REJECTED,
         ];
-        $waybill->setStatus($response->State, $statusMap);
-        $waybill->setTraces(
+        $kuaidi->setStatus($response->State, $statusMap);
+        $kuaidi->setTraces(
             Traces::parse($response->Traces, 'AcceptTime', 'AcceptStation', 'Remark')
         );
     }

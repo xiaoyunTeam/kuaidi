@@ -1,8 +1,8 @@
 <?php
 
-namespace Kuaidi;
+namespace XiaoYun;
 
-class Waybill
+class Kuaidi
 {
     /**
      * 揽件

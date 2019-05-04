@@ -1,6 +1,6 @@
 <?php
 
-namespace Kuaidi\Exceptions;
+namespace XiaoYun\Exceptions;
 
 /**
  * 当接口响应返回失败时抛出。

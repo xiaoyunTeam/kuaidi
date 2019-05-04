@@ -1,11 +1,11 @@
 <?php
 
-namespace Kuaidi\Trackers;
+namespace XiaoYun\Trackers;
 
 use Curl\Curl;
-use Kuaidi\Exceptions\TrackingException;
-use Kuaidi\Traces;
-use Kuaidi\Waybill;
+use XiaoYun\Exceptions\TrackingException;
+use XiaoYun\Traces;
+use XiaoYun\Kuaidi;
 
 class Kuaidi100 implements TrackerInterface, DetectorInterface
 {
@@ -149,9 +149,9 @@ class Kuaidi100 implements TrackerInterface, DetectorInterface
         ];
     }
 
-    public function detect(Waybill $waybill)
+    public function detect(Kuaidi $kuaidi)
     {
-        $apiUrl = 'http://www.kuaidi100.com/autonumber/auto?num=' . $waybill->id;
+        $apiUrl = 'http://www.kuaidi100.com/autonumber/auto?num=' . $kuaidi->id;
         $curl = (new Curl())->get($apiUrl);
         $response = static::getJsonResponse($curl, true);
 
@@ -163,11 +163,11 @@ class Kuaidi100 implements TrackerInterface, DetectorInterface
         );
     }
 
-    public function track(Waybill $waybill)
+    public function track(Kuaidi $kuaidi)
     {
         $apiUrl = 'http://www.kuaidi100.com/query?' . http_build_query([
-            'postid' => $waybill->id,
-            'type'   => $this->getExpressCode($waybill),
+            'postid' => $kuaidi->id,
+            'type'   => $this->getExpressCode($kuaidi),
         ]);
         $curl = (new Curl())->get($apiUrl);
         $response = static::getJsonResponse($curl);
@@ -176,16 +176,16 @@ class Kuaidi100 implements TrackerInterface, DetectorInterface
             throw new TrackingException($response->message, $response);
         }
         $statusMap = [
-            0 => Waybill::STATUS_TRANSPORTING,
-            1 => Waybill::STATUS_PICKEDUP,
-            2 => Waybill::STATUS_REJECTED,
-            3 => Waybill::STATUS_DELIVERED,
-            4 => Waybill::STATUS_RETURNED,
-            5 => Waybill::STATUS_DELIVERING,
-            6 => Waybill::STATUS_RETURNING,
+            0 => Kuaidi::STATUS_TRANSPORTING,
+            1 => Kuaidi::STATUS_PICKEDUP,
+            2 => Kuaidi::STATUS_REJECTED,
+            3 => Kuaidi::STATUS_DELIVERED,
+            4 => Kuaidi::STATUS_RETURNED,
+            5 => Kuaidi::STATUS_DELIVERING,
+            6 => Kuaidi::STATUS_RETURNING,
         ];
-        $waybill->setStatus($response->state, $statusMap);
-        $waybill->setTraces(
+        $kuaidi->setStatus($response->state, $statusMap);
+        $kuaidi->setTraces(
             Traces::parse($response->data, 'time', 'context', 'location')
         );
     }
