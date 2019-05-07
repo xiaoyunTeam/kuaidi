@@ -4,11 +4,10 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "php": ">=5.4",
-        "curl/curl": "^1.5"
+        "guzzlehttp/guzzle": "^6.2"
     },
     "require-dev": {
-        "phpstan/phpstan": "*"
+        "guzzlehttp/guzzle": "^6.2"
     },
     "authors": [
         {
@@ -18,7 +17,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "XiaoYun\\" : "lib/"
+            "XiaoYun\\" : "/"
         }
     }
 }
