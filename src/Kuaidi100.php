@@ -10,11 +10,15 @@ class Kuaidi100
 
     public static function track($postid)
     {
+        $detect = self::detect($postid);
+        if (!isset($detect[0]['comCode'])) {
+            return '不支持查询该物流公司单号，或单号错误！';
+        }
         $client = new \GuzzleHttp\Client(['base_uri' => static::site]);
         $result = $client->request('GET', '/query', [
             'query' => [
                 'postid' => $postid,
-                'type' => 1,
+                'type' => $detect[0]['comCode'],
                 'temp' => '0.' . self::getRandom(16)
             ]
         ]);
