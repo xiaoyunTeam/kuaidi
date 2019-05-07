@@ -14,25 +14,23 @@
 composer require xiaoyun/kuaidi
 ```
 
-### 1. 查询
+### 1. 查询运单进程
 
 ```php
-$kuaidi = new \XiaoYun\Kuaidi(
-    '运单编号', 
-    '快递公司名称'
+$kuaidi = \XiaoYun\Kuaidi100::track(
+    '运单编号'
 );
 ```
 
-「快递100」支持自动识别，可不填快递公司名称。
+「快递100」支持自动识别，无需填快递公司名称。
 
-### 2. 查询
+### 2. 查询快递单位名
 
 ```php
-(new \XiaoYun\Trackers\Kuaidi100)->track($kuaidi);
+$kuaidi = \XiaoYun\Kuaidi100::detect(
+    '运单编号'
+);
 ```
-
-推荐使用「快递100」。
-
 
 
 实际项目中，可自行封装辅助函数以便于使用。

@@ -9,8 +9,8 @@ class Kuaidi100
 
     public static function track($postid)
     {
-        $detect = json_decode(self::detect($postid));
-        if (!isset($detect[0]->comCode)) {
+        $detect = self::detect($postid);
+        if (!isset($detect[0]['comCode'])) {
             return '不支持查询该物流公司单号，或单号错误！';
         }
         if (!\think\facade\Session::has('csrftoken') or !\think\facade\Session::has('csrftoken')) {
@@ -41,7 +41,7 @@ class Kuaidi100
                 'Cookie' => 'closeCodepre=1;WWWID=' . $cookie['WWWID'] . '; csrftoken=' . $cookie['csrftoken'] . '; Hm_lpvt_22ea01af58ba2be0fec7c11b25e88e6c=' . time()
             ],
             'form_params' => [
-                'type' => $detect[0]->comCode,
+                'type' => $detect[0]['comCode'],
                 'postid' => $postid,
                 'temp' => '0.' . self::getRandom(16),
             ]
@@ -57,7 +57,7 @@ class Kuaidi100
                 'num' => $postid
             ]
         ]);
-        return $result->getBody();
+        return json_decode((String)$result->getBody(), true);
     }
 
     /*
